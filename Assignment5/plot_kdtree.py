@@ -59,6 +59,8 @@ if __name__ == '__main__':
 		if args.quadshow:
 			plotter.add_quadtree(quadtree)
 
+	plotter.plot()
+	
 	# Testing: Implementing the KDTree
 	if args.closest:
 		# This is for testing, to check if your closest query is correclty implemented

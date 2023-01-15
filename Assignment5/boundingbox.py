@@ -202,6 +202,7 @@ if __name__ == '__main__':
 	print(bbox.reduce_min_by(0,0.3))
 	print(bbox.reduce_max_by(0,0.3))
 	print(bbox.centroid())
+	print("box")
 	print(bbox)
 	print(BoundingBox.from_matrix(np.array([[0, 1],[ 2, 4]])))
 

@@ -51,26 +51,35 @@ class QuadTree:
 
 		:To be implemented by the student:		
 		"""
-            if depth > self.depth:
-            return
-            
-            min_x, max_x, min_y, max_y = bbox.bounds()
-            mid_x = (max_x - min_x) / 2
-            mid_y = (max_y - min_y) / 2
-            
-            first = bb.BoundingBox(min_x, min_x + mid_x, min_y, min_y + mid_y)
-            second = bb.BoundingBox(min_x + mid_x,max_x, min_y,min_y + mid_y)
-            third = bb.BoundingBox(min_x, min_x + mid_x, min_y + mid_y, max_y)
-            fourth = bb.BoundingBox(min_x + mid_x,max_x, min_y + mid_y, max_y)
-            
-            self.quads[depth] = [first, second, third, fourth]
+		if depth >= self.depth:
+			return
 
-            self.recurse(first, depth + 1)
-            self.recurse(second, depth + 1)
-            self.recurse(third, depth + 1)
-            self.recurse(fourth, depth + 1)
-            
-		raise Exception('Quadtree::recurse should be implemented by the student')
+		
+		minmax = bbox.data
+		min_x, max_x = minmax[0]
+		min_y, max_y = minmax[1]
+
+		mid_x = (max_x + min_x) / 2
+		mid_y = (max_y + min_y) / 2
+		
+		
+		first = bb.BoundingBox(min_x, mid_x, min_y, mid_y)
+		second = bb.BoundingBox(mid_x, max_x, min_y, mid_y)
+		third = bb.BoundingBox(min_x, mid_x, mid_y, max_y)
+		fourth = bb.BoundingBox(mid_x, max_x, mid_y, max_y)
+
+		
+		self.quads[depth].append(first)
+		self.quads[depth].append(second)
+		self.quads[depth].append(third)
+		self.quads[depth].append(fourth)
+
+		self.recurse(first, depth + 1)
+		self.recurse(second, depth + 1)
+		self.recurse(third, depth + 1)
+		self.recurse(fourth, depth + 1)
+		
+	# raise Exception('Quadtree::recurse should be implemented by the student')
 
 	@staticmethod	
 	def at_least(size):
