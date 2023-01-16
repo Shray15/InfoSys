@@ -87,8 +87,6 @@ if __name__ == '__main__':
 			for b in quadtree.quads[d-1]:
 				# Step 1 query and fetch		
 				closest_query = np.array(b.centroid())
-
-				closest_keys = tree.closest(closest_query)
 				
 				closest_records = dtb.query(tree.closest(closest_query))
 
@@ -97,7 +95,7 @@ if __name__ == '__main__':
 				distances = [np.linalg.norm(closest_query - geom) for geom in geometries]
 				ordered = np.argsort(distances)
 
-
+				# Update quad level to current level
 				dtb.update_field(closest_records[ordered[0]][0], "quad", d)
 
 				# print(ordered)
