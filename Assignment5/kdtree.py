@@ -205,7 +205,25 @@ class KDTree:
 
 		:To be implemented by the student:	
 		"""
-		raise Exception('KDTree::closest should be implemented by the student')					
+
+		if "elements" in self.storage[sidx.storage()]:
+
+			return self.storage[sidx.storage()]["elements"]
+	
+		else:
+			axis = self.storage[sidx.storage()]["axis"]
+			partition = self.storage[sidx.storage()]["partition"]
+			
+			res = []
+
+			if  partition < point[axis]:
+				res.extend(self.closest(point,sidx.right()))
+			if point[axis] <= partition:
+				res.extend(self.closest(point,sidx.left()))
+
+			return res
+
+		# raise Exception('KDTree::closest should be implemented by the student')					
 		
 
 	

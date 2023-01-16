@@ -59,7 +59,6 @@ if __name__ == '__main__':
 		if args.quadshow:
 			plotter.add_quadtree(quadtree)
 
-	plotter.plot()
 	
 	# Testing: Implementing the KDTree
 	if args.closest:
@@ -81,7 +80,28 @@ if __name__ == '__main__':
 	# Using the QuadTree depth to subsample the KDTree		
 	if args.quadtree:
 	# :To be implemented by the student:
-		raise Exception('plot_kdtree:: `# Using the QuadTree depth to subsample the KDTree` should be implemented by the student')	
+		for k in dtb.keys():
+			dtb.update_field(k, "quad", args.quadlevel)
+		
+		for d in range(quadtree.depth,0,-1):
+			for b in quadtree.quads[d-1]:
+				# Step 1 query and fetch		
+				closest_query = np.array(b.centroid())
+
+				closest_keys = tree.closest(closest_query)
+				
+				closest_records = dtb.query(tree.closest(closest_query))
+
+				# Step 2 compare found geometry with closest_point	
+				geometries= [ [x[field_idx["x"]],x[field_idx["y"]] ] for x in closest_records]
+				distances = [np.linalg.norm(closest_query - geom) for geom in geometries]
+				ordered = np.argsort(distances)
+
+
+				dtb.update_field(closest_records[ordered[0]][0], "quad", d)
+
+				# print(ordered)
+		# raise Exception('plot_kdtree:: `# Using the QuadTree depth to subsample the KDTree` should be implemented by the student')	
 
 	plotter.plot()
 
